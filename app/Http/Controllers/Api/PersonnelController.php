@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Personnel;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PersonnelController extends Controller
@@ -10,7 +12,7 @@ class PersonnelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $personnel = Personnel::all();
         return response()->json($personnel);
@@ -19,7 +21,7 @@ class PersonnelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         // Validate the request data
         $validatedData = $request->validate([
@@ -35,18 +37,16 @@ class PersonnelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Personnel $personnel): JsonResponse
     {
-        $personnel = Personnel::findOrFail($id);
         return response()->json($personnel);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Personnel $personnel): JsonResponse
     {
-        $personnel = Personnel::findOrFail($id);
 
         // Validate the request data
         $validatedData = $request->validate([
@@ -62,9 +62,9 @@ class PersonnelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Personnel $personnel): JsonResponse
     {
-        Personnel::destroy($id);
+        $personnel->delete();
         return response()->json(null, 204);
     }
 }

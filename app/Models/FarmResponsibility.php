@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FarmResponsibility extends Model
 {
@@ -15,7 +16,7 @@ class FarmResponsibility extends Model
         'personnel_id',
     ];
 
-    public function personnel()
+    public function personnel(): BelongsTo
     {
         return $this->belongsTo(Personnel::class, 'personnel_id');
     }

@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\FarmResponsibilityController;
-use App\Http\Controllers\PersonnelController;
-use App\Http\Controllers\SupplyController;
+use App\Http\Controllers\Api\FarmResponsibilityController;
+use App\Http\Controllers\Api\PersonnelController;
+use App\Http\Controllers\Api\SupplyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

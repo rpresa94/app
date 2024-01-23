@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\FarmResponsibility;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Js;
 
 class FarmResponsibilityController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $responsibilities = FarmResponsibility::all();
         return response()->json($responsibilities);
@@ -19,7 +22,7 @@ class FarmResponsibilityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validatedData = $request->validate([
             'type' => 'required|string|max:255',
@@ -34,18 +37,16 @@ class FarmResponsibilityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(FarmResponsibility $farmResponsibility): JsonResponse
     {
-        $responsibility = FarmResponsibility::findOrFail($id);
-        return response()->json($responsibility);
+        return response()->json($farmResponsibility);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, FarmResponsibility $farmResponsibility): JsonResponse
     {
-        $responsibility = FarmResponsibility::findOrFail($id);
 
         $validatedData = $request->validate([
             'type' => 'string|max:255',
@@ -53,16 +54,16 @@ class FarmResponsibilityController extends Controller
             'personnel_id' => 'exists:personnels,id',
         ]);
 
-        $responsibility->update($validatedData);
-        return response()->json($responsibility);
+        $farmResponsibility->update($validatedData);
+        return response()->json($farmResponsibility);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(FarmResponsibility $farmResponsibility): JsonResponse
     {
-        FarmResponsibility::destroy($id);
+        $farmResponsibility->delete();
         return response()->json(null, 204);
     }
 }

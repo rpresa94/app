@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Supply;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SupplyController extends Controller
@@ -10,7 +12,7 @@ class SupplyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $supplies = Supply::all();
         return response()->json($supplies);
@@ -19,7 +21,7 @@ class SupplyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -34,18 +36,16 @@ class SupplyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Supply $supply): JsonResponse
     {
-        $supply = Supply::findOrFail($id);
         return response()->json($supply);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Supply $supply): JsonResponse
     {
-        $supply = Supply::findOrFail($id);
 
         $validatedData = $request->validate([
             'name' => 'string|max:255',
@@ -60,9 +60,9 @@ class SupplyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Supply $supply): JsonResponse
     {
-        Supply::destroy($id);
+        $supply->delete();
         return response()->json(null, 204);
     }
 }
